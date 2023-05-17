@@ -1,0 +1,24 @@
+name: github-actions-hello-docker
+on: 
+    workflow_dispatch:
+        inputs:
+            input_text:
+                description: 'Who to greet'     
+                required: true
+                default: 'World'
+jobs:
+    hello-job:
+        runs-on: ubuntu-latest
+        steps:
+          - name: Checkout repo
+            uses: actions/checkout@v2
+          - name: Use docker action
+            id: hello
+            uses: ./
+            with:
+                who-to-greet: "${{ github.event.inputs.input_text }}"
+      # Use the output from the `hello` step
+          - name: Get the output time
+            run: echo "The time was ${{ steps.hello.outputs.time }}"
+                   
+         
